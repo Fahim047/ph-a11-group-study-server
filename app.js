@@ -18,4 +18,9 @@ app.get('/', (req, res) =>
 	res.status(200).json({ message: 'Study together!!!' })
 );
 
+// Routers
+import assignmentRouter from './routes/assignment.routes.js';
+
+app.use('/api/assignments', assignmentRouter);
+
 export { app };
