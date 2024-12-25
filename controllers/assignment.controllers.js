@@ -1,6 +1,10 @@
+import mongoose from 'mongoose';
 import { Assignment } from '../models/assignment.models.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { removeMongoDBIdFromArray } from '../utils/mongo-utils.js';
+import {
+	removeMongoDBIdFromArray,
+	removeMongoDBIdFromObject,
+} from '../utils/mongo-utils.js';
 export const addAssignment = asyncHandler(async (req, res) => {
 	const {
 		title,
@@ -78,15 +82,30 @@ export const updateAssignment = asyncHandler(async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(id)) {
 		return res.status(400).json({ message: 'Invalid ID' });
 	}
-	const updatedAssignment = await Assignment.findByIdAndUpdate(id, req.body, {
+	let updatedAssignment = await Assignment.findByIdAndUpdate(id, req.body, {
 		new: true,
 	});
 	if (!updatedAssignment) {
 		return res.status(404).json({
-			success: false,
 			message: 'Assignment not found',
 		});
 	}
-
+	updatedAssignment = removeMongoDBIdFromObject(updatedAssignment);
 	return res.status(200).json(updatedAssignment);
+});
+
+export const deleteAssignment = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(400).json({ message: 'Invalid ID' });
+	}
+	let deletedAssignment = await Assignment.findByIdAndDelete(id);
+
+	if (!deletedAssignment) {
+		return res.status(404).json({
+			message: 'Oops! Assignment not found!',
+		});
+	}
+	deletedAssignment = removeMongoDBIdFromObject(deletedAssignment);
+	return res.status(200).json(deletedAssignment);
 });
