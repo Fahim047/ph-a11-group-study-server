@@ -59,3 +59,34 @@ export const getAllAssignments = asyncHandler(async (req, res) => {
 		});
 	}
 });
+
+export const getAssignmentById = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(400).json({ message: 'Invalid ID' });
+	}
+	let assignment = await Assignment.findById(id).lean();
+	if (!assignment) {
+		return res.status(404).json({ message: 'Assignment not found' });
+	}
+	assignment = removeMongoDBIdFromObject(assignment);
+	return res.status(200).json(assignment);
+});
+
+export const updateAssignment = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(400).json({ message: 'Invalid ID' });
+	}
+	const updatedAssignment = await Assignment.findByIdAndUpdate(id, req.body, {
+		new: true,
+	});
+	if (!updatedAssignment) {
+		return res.status(404).json({
+			success: false,
+			message: 'Assignment not found',
+		});
+	}
+
+	return res.status(200).json(updatedAssignment);
+});
