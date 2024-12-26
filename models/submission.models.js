@@ -12,9 +12,11 @@ const submissionSchema = new mongoose.Schema(
 		note: { type: String },
 		status: {
 			type: String,
-			enum: ['pending', 'approved', 'rejected'],
+			enum: ['pending', 'evaluated'],
 			default: 'pending',
 		},
+		obtainedMarks: { type: Number },
+		feedback: { type: String },
 		submittedAt: { type: Date, default: Date.now },
 	},
 	{ timestamps: true }
