@@ -5,12 +5,11 @@ import {
 	getSubmissions,
 	updateMarks,
 } from '../controllers/submission.controllers.js';
-import { verifyToken } from '../utils/verifyToken.js';
 
 const router = Router();
 
-router.post('/', verifyToken, addSubmission);
-router.get('/', verifyToken, getSubmissions);
-router.get('/pending', verifyToken, getPendingAssignments);
-router.put('/:id', verifyToken, updateMarks);
+router.post('/', addSubmission);
+router.get('/', getSubmissions);
+router.get('/pending', getPendingAssignments);
+router.put('/:id', updateMarks);
 export default router;
