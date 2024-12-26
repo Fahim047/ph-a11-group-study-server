@@ -109,3 +109,10 @@ export const deleteAssignment = asyncHandler(async (req, res) => {
 	deletedAssignment = removeMongoDBIdFromObject(deletedAssignment);
 	return res.status(200).json(deletedAssignment);
 });
+
+export const getAllPendingAssignments = asyncHandler(async (req, res) => {
+	const pendingAssignments = await Assignment.find({
+		status: 'pending',
+	});
+	return res.status(200).json(pendingAssignments);
+});

@@ -7,6 +7,10 @@ const assignmentSchema = new mongoose.Schema(
 			required: true,
 			trim: true,
 		},
+		status: {
+			type: String,
+			default: 'pending',
+		},
 		difficulty: {
 			type: String,
 			enum: ['easy', 'medium', 'hard'],
