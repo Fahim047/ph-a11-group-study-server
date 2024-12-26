@@ -7,14 +7,13 @@ import {
 	getAssignmentById,
 	updateAssignment,
 } from '../controllers/assignment.controllers.js';
-import { verifyToken } from '../utils/verifyToken.js';
 const router = Router();
 
-router.post('/', verifyToken, addAssignment);
+router.post('/', addAssignment);
 router.get('/', getAllAssignments);
 router.get('/pending', getAllPendingAssignments);
 router.get('/:id', getAssignmentById);
-router.put('/:id', verifyToken, updateAssignment);
-router.delete('/:id', verifyToken, deleteAssignment);
+router.put('/:id', updateAssignment);
+router.delete('/:id', deleteAssignment);
 
 export default router;
