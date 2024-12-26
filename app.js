@@ -7,7 +7,10 @@ const app = express();
 app.use(
 	cors({
 		// origin: process.env.CORS_ORIGIN,
-		origin: ['http://localhost:5173', 'https://ph-a11-group-study.vercel.app'],
+		origin: [
+			'http://localhost:5173',
+			'https://ph-a11-group-study-client.vercel.app',
+		],
 		credentials: true,
 	})
 );
