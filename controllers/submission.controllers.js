@@ -54,7 +54,7 @@ export const getPendingAssignments = async (req, res) => {
 			.sort({ submittedAt: -1 });
 
 		if (!pendingSubmissions.length) {
-			return res.status(404).json({ message: 'No pending assignments found.' });
+			return res.status(200).json([]);
 		}
 
 		const cleanedData = removeMongoDBIdFromArray(
