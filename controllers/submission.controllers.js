@@ -25,6 +25,27 @@ export const addSubmission = asyncHandler(async (req, res) => {
 		.status(201)
 		.json({ message: 'Assignment submitted successfully', submission });
 });
+export const getSubmissions = asyncHandler(async (req, res) => {
+	const { userEmail } = req.query;
+	let submissions;
+	if (userEmail) {
+		submissions = await Submission.find({ userEmail })
+			.populate('assignmentId', 'title description marks')
+			.sort({ createdAt: -1 });
+	} else {
+		submissions = await Submission.find()
+			.populate('assignmentId', 'title description marks')
+			.sort({ createdAt: -1 });
+	}
+
+	if (submissions.length === 0) {
+		return res.status(404).json({ message: 'No submissions found.' });
+	}
+	const cleanedSubmissions = removeMongoDBIdFromArray(
+		submissions.map((item) => item.toObject())
+	);
+	res.status(200).json(cleanedSubmissions);
+});
 
 export const getPendingAssignments = async (req, res) => {
 	try {
