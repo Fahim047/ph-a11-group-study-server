@@ -22,11 +22,11 @@ export const verifyToken = (req, res, next) => {
 		next();
 	});
 };
-router.post('/', addAssignment);
+router.post('/', verifyToken, addAssignment);
 router.get('/', getAllAssignments);
 router.get('/pending', getAllPendingAssignments);
 router.get('/:id', getAssignmentById);
-router.put('/:id', updateAssignment);
-router.delete('/:id', deleteAssignment);
+router.put('/:id', verifyToken, updateAssignment);
+router.delete('/:id', verifyToken, deleteAssignment);
 
 export default router;
