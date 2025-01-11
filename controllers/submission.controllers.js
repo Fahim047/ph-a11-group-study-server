@@ -27,7 +27,7 @@ export const addSubmission = asyncHandler(async (req, res) => {
 });
 export const getSubmissions = asyncHandler(async (req, res) => {
 	const { userEmail } = req.query;
-	let submissions;
+	let submissions = [];
 	if (userEmail) {
 		submissions = await Submission.find({ userEmail })
 			.populate('assignmentId', 'title description marks')
@@ -38,9 +38,6 @@ export const getSubmissions = asyncHandler(async (req, res) => {
 			.sort({ createdAt: -1 });
 	}
 
-	if (submissions.length === 0) {
-		return res.status(404).json({ message: 'No submissions found.' });
-	}
 	const cleanedSubmissions = removeMongoDBIdFromArray(
 		submissions.map((item) => item.toObject())
 	);
